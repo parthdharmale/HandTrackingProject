@@ -26,6 +26,11 @@ timeStart = time.time()
 totalTime = 20
 paused = False
 
+def restart_game():
+    global timeStart, score
+    timeStart = time.time()
+    score = 0
+
 # Loop
 while True:
     success, img = cap.read()
@@ -67,6 +72,14 @@ while True:
         else:
             cvzone.putTextRect(img, 'Game Over', (400, 400), scale=5, offset=30, thickness=7)
             cvzone.putTextRect(img, f'Score: {score}', (450, 500), scale=3, offset=20)
+
+            # Restart game
+            cvzone.putTextRect(img, 'Press "R" to restart', (400, 600), scale=3, offset=20)
+            key = cv2.waitKey(1)
+
+            if key == ord('r'):
+                restart_game()
+
     else:
         cvzone.putTextRect(img, 'Paused', (550, 400), scale=5, offset=30, thickness=7)
 
@@ -75,10 +88,6 @@ while True:
 
     if key == ord('p'):
         paused = not paused
-
-    if key == ord('r'):
-        timeStart = time.time()
-        score = 0
 
     if key == ord('q'):
         break
